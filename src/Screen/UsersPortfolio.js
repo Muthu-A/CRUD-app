@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData, addUser, updateUser, deleteUser } from "../Redux/action";
 import Spinner from "../Components/Spinner";
-import { Button, Spin } from 'antd';
+import { Button } from 'antd';
 import "../table.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -42,7 +42,7 @@ function UsersPortfolio() {
      * Checking the user is already exist or not
      */
     const isUserExist = () => {
-        return state.data.some(user => user.name === formData.name && user.age === formData.age && user.colour === formData.colour);
+        return state?.data && state?.data.length && state?.data?.some(user => user.name === formData.name && user.age === formData.age && user.colour === formData.colour);
     };
 
     /**
@@ -91,8 +91,8 @@ function UsersPortfolio() {
         <>
             {state.loading ? <Spinner /> : (
                 <div className="container mt-5">
-                    <h1>User Form</h1>
                     <div className="row">
+                        <h1>User Form</h1>
                         <div className="col-md-4">
                             <form>
                                 <div className="mb-3">
@@ -136,8 +136,8 @@ function UsersPortfolio() {
                                 </div>
                                 {error && <h5 style={{ color: "red" }}>{error}</h5>}
                                 <div style={{ marginTop: '10px' }}>
-                                    <Button type="primary" onClick={addAndUpdateUserInformation}>
-                                        {state.buttonLoading ? <Spin /> : isEdit ? 'Update' : 'Add User'}
+                                    <Button type="primary" onClick={addAndUpdateUserInformation} loading={state.buttonLoading}>
+                                        {isEdit ? 'Update' : 'Add User'}
                                     </Button>
                                 </div>
                             </form>
